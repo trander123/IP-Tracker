@@ -25,7 +25,7 @@ form.onsubmit = (e) => {
 
 
 const fetchApi = async (query) => {
-  const url = `http://ip-api.com/json/${query}`
+  const url = `https://geo.ipify.org/api/v2/country,city?apiKey=at_s8zcxuIa4sQq9XDCBQJopRLMLdy9X&ipAddress=${query}`
   const res = await fetch(url)
   const data = await res.json()
   return data
@@ -33,13 +33,13 @@ const fetchApi = async (query) => {
 
 const viewData = async (query) => {
   const data = await fetchApi(query)
-  const center = [data.lat, data.lon]
+  const center = [data.location.lat, data.location.lng]
 
-  input.value = data.query
+  input.value = data.ip
 
-  ip.innerHTML = data.query;
-  loc.innerHTML = `${data.city}, ${data.country}`
-  timezone.innerHTML = data.timezone
+  ip.innerHTML = data.ip;
+  loc.innerHTML = `${data.location.city}, ${data.location.region}`
+  timezone.innerHTML = data.location.timezone
   isp.innerHTML = data.isp
   loadingScreen.style.display = "none"
   map.setView(center, 10)
